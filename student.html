@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Student Question Papers | GCWK</title>
+
+<style>
+  :root {
+    --primary: #2563eb;
+    --dark-bg: #0a1020;
+    --card1: #1b263b;
+    --card2: #223a5e;
+  }
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top, #1b2a4e, var(--dark-bg));
+    color: #fff;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER & MENU */
+  header {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 16px 26px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .menu {
+    width: 28px;
+    cursor: pointer;
+  }
+  .menu div {
+    height: 3px;
+    background: #fff;
+    margin: 5px 0;
+    border-radius: 2px;
+  }
+
+  /* MAIN CONTENT */
+  main {
+    flex-grow: 1;
+    max-width: 900px;
+    margin: 30px auto 70px; /* bottom margin for footer */
+    padding: 20px 30px;
+  }
+  h2 {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  /* PDF cards styling like landing page */
+  .pdf-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+  }
+  .pdf-card {
+    background: linear-gradient(145deg, var(--card1), var(--card2));
+    border-radius: 18px;
+    padding: 18px 16px;
+    box-shadow:
+      0 14px 30px rgba(0, 0, 0, 0.65),
+      0 6px 12px rgba(0, 170, 255, 0.15),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .pdf-filename {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+  .pdf-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .pdf-buttons button, .pdf-buttons a {
+    flex-grow: 1;
+    border: none;
+    padding: 8px 0;
+    font-weight: 600;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s ease;
+  }
+  .pdf-buttons button:hover, .pdf-buttons a:hover {
+    background: #1a40b8;
+  }
+
+  /* FOOTER */
+  footer {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 26px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  /* SIDE MENU */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    z-index: 9;
+  }
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: linear-gradient(180deg, #112240, #0b1a33);
+    transition: 0.3s;
+    z-index: 10;
+    box-shadow: 6px 0 20px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+  }
+  .side-menu.open {
+    left: 0;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .profile {
+    padding: 20px;
+    background: #0d1b2a;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .profile img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  .profile h3 {
+    font-size: 16px;
+  }
+  .profile p {
+    font-size: 13px;
+    opacity: 0.8;
+  }
+  .menu-items {
+    padding: 10px 0;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  .menu-items div {
+    padding: 14px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.3s;
+  }
+  .menu-items div:hover {
+    background: rgba(0,170,255,0.18);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">📄 GCWK - Student Papers</div>
+  <div class="menu" onclick="openMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</header>
+
+<div class="side-menu" id="sideMenu">
+  <div class="profile">
+    <img src="https://i.imgur.com/6VBx3io.png" alt="User" />
+    <h3>Student Name</h3>
+    <p>student@email.com</p>
+  </div>
+
+  <div class="menu-items">
+    <div onclick="menuAction('history')">🕘 History</div>
+    <div onclick="menuAction('download')">⬇️ Downloaded</div>
+    <div onclick="menuAction('settings')">⚙️ Settings</div>
+    <div onclick="menuAction('logout')">🚪 Logout</div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<main>
+  <h2 id="subjectTitle">Subject: </h2>
+
+  <div class="pdf-list" id="pdfList">
+    <!-- PDF cards inserted here -->
+  </div>
+</main>
+
+<footer>© 2025 GCWK | Study Material Platform</footer>
+
+<script>
+  const pdfListEl = document.getElementById('pdfList');
+  const subjectTitleEl = document.getElementById('subjectTitle');
+  const sideMenu = document.getElementById('sideMenu');
+  const overlay = document.getElementById('overlay');
+
+  // Get subject from query param ?subject=Mathematics or from localStorage fallback
+  function getSubject() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let subject = urlParams.get('subject');
+    if (!subject) {
+      subject = localStorage.getItem('qp_subject');
+    }
+    return subject ? subject.trim() : '';
+  }
+
+  // Get uploaded PDFs from localStorage for subject
+  function getUploads(subject) {
+    if (!subject) return [];
+    const data = localStorage.getItem('uploads_' + subject.toLowerCase());
+    return data ? JSON.parse(data) : [];
+  }
+
+  // Render PDFs as cards
+  function renderPDFs(subject) {
+    const uploads = getUploads(subject);
+    subjectTitleEl.textContent = 'Subject: ' + (subject || '(None)');
+
+    pdfListEl.innerHTML = '';
+    if (!subject) {
+      pdfListEl.innerHTML = '<p style="opacity:0.7; text-align:center;">No subject selected.</p>';
+      return;
+    }
+    if (uploads.length === 0) {
+      pdfListEl.innerHTML = '<p style="opacity:0.7; text-align:center;">No question papers uploaded for this subject.</p>';
+      return;
+    }
+
+    uploads.forEach(file => {
+      const card = document.createElement('div');
+      card.className = 'pdf-card';
+
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'pdf-filename';
+      nameDiv.textContent = file.name;
+      card.appendChild(nameDiv);
+
+      const btnsDiv = document.createElement('div');
+      btnsDiv.className = 'pdf-buttons';
+
+      // View button - open pdf in new tab
+      const viewBtn = document.createElement('button');
+      viewBtn.textContent = 'View';
+      viewBtn.onclick = () => {
+        const pdfWindow = window.open();
+        pdfWindow.document.write(`<iframe src="${file.dataURL}" style="width:100%;height:100vh;" frameborder="0"></iframe>`);
+      };
+      btnsDiv.appendChild(viewBtn);
+
+      // Download button - create link to download the PDF
+      const downloadLink = document.createElement('a');
+      downloadLink.textContent = 'Download';
+      downloadLink.href = file.dataURL;
+      downloadLink.download = file.name;
+      btnsDiv.appendChild(downloadLink);
+
+      card.appendChild(btnsDiv);
+      pdfListEl.appendChild(card);
+    });
+  }
+
+  // Menu open/close
+  function openMenu() {
+    sideMenu.classList.add('open');
+    overlay.classList.add('show');
+  }
+  function closeMenu() {
+    sideMenu.classList.remove('open');
+    overlay.classList.remove('show');
+  }
+  function menuAction(action) {
+    closeMenu();
+    alert(action + " clicked");
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    const subject = getSubject();
+    renderPDFs(subject);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Department | GCWK</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
+}
+
+body{
+  background:radial-gradient(circle at top,#1b2a4e,#0a1020);
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ================= NAVBAR ================= */
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 26px;
+  background:rgba(15,23,42,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+  font-size:21px;
+  font-weight:600;
+  letter-spacing:0.5px;
+}
+
+.menu div{
+  width:26px;
+  height:2.5px;
+  background:#fff;
+  margin:6px 0;
+  opacity:.9;
+}
+
+/* ================= MAIN ================= */
+.main{
+  flex:1;
+  max-width:1000px;
+  margin:auto;
+  padding:50px 20px;
+}
+
+.title{
+  text-align:center;
+  margin-bottom:45px;
+  animation:fadeUp .8s ease;
+}
+
+.title h2{
+  font-size:26px;
+}
+
+.title p{
+  opacity:.7;
+  margin-top:6px;
+}
+
+/* ================= STREAM CARDS ================= */
+.streams{
+  display:grid;
+  gap:30px;
+}
+
+@media(min-width:768px){
+  .streams{grid-template-columns:1fr 1fr;}
+}
+
+.stream{
+  padding:42px;
+  border-radius:24px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.15);
+  cursor:pointer;
+  transition:transform .4s ease, box-shadow .4s ease, background .4s;
+  animation:fadeUp .9s ease;
+}
+
+.stream:hover{
+  transform:translateY(-10px) scale(1.02);
+  background:rgba(255,255,255,.12);
+  box-shadow:0 20px 40px rgba(37,99,235,.35);
+}
+
+.stream h3{
+  font-size:22px;
+}
+
+.stream span{
+  font-size:14px;
+  opacity:.7;
+}
+
+/* ================= OVERLAY ================= */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  z-index:10;
+  animation:fadeIn .4s ease;
+}
+
+/* ================= BOTTOM SHEET ================= */
+.sheet{
+  position:fixed;
+  left:50%;
+  bottom:-100%;
+  transform:translateX(-50%);
+  width:95%;
+  max-width:520px;
+  background:#0f172a;
+  border-radius:28px 28px 0 0;
+  padding:26px;
+  transition:bottom .45s cubic-bezier(.25,.8,.25,1);
+  z-index:11;
+  max-height:75vh;
+  overflow-y:auto;
+}
+
+.sheet.open{bottom:0;}
+
+.sheet h3{
+  text-align:center;
+  margin-bottom:22px;
+}
+
+/* ================= OPTIONS ================= */
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.option{
+  padding:14px;
+  border-radius:14px;
+  background:#1e293b;
+  text-align:center;
+  cursor:pointer;
+  font-size:14px;
+  transition:transform .25s ease, background .25s ease, box-shadow .25s;
+}
+
+/* hover */
+.option:hover{
+  background:#2563eb;
+  transform:translateY(-4px);
+}
+
+/* selected glow */
+.option.selected{
+  background:#2563eb;
+  box-shadow:0 0 0 2px rgba(37,99,235,.8),
+             0 10px 25px rgba(37,99,235,.6);
+  transform:scale(1.04);
+}
+
+/* mobile */
+@media(max-width:420px){
+  .options{grid-template-columns:1fr;}
+}
+
+/* ================= FOOTER ================= */
+footer{
+  text-align:center;
+  padding:14px;
+  font-size:13px;
+  opacity:.6;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🎓 GCWK</div>
+  <div class="menu">
+    <div></div><div></div><div></div>
+  </div>
+</header>
+
+<section class="main">
+  <div class="title">
+    <h2>Select Your Stream</h2>
+    <p>Choose your department to continue</p>
+  </div>
+
+  <div class="streams">
+    <div class="stream" onclick="openSheet('arts')">
+      <h3>Arts & Science</h3>
+      <span>UG & PG Departments</span>
+    </div>
+
+    <div class="stream" onclick="openSheet('eng')">
+      <h3>Engineering</h3>
+      <span>B.E / B.Tech Departments</span>
+    </div>
+  </div>
+</section>
+
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<div class="sheet" id="sheet">
+  <h3 id="sheetTitle"></h3>
+  <div class="options" id="options"></div>
+</div>
+
+<footer>
+  © 2025 GCWL | Study Material Uploader
+</footer>
+
+<script>
+const arts=[
+ "Tamil","English","History","Geography","Economics",
+ "Mathematics","Physics","Chemistry",
+ "Computer Science","B.Com","BCA"
+];
+
+const eng=[
+ "CSE","IT","AI & DS","ECE","EEE","Mechanical","Civil"
+];
+
+let selectedEl=null;
+
+function openSheet(type){
+  overlay.style.display="block";
+  sheet.classList.add("open");
+
+  sheetTitle.innerText=
+    type==="arts" ? "Arts & Science Departments" : "Engineering Departments";
+
+  const list=type==="arts"?arts:eng;
+  options.innerHTML="";
+  selectedEl=null;
+
+  list.forEach(d=>{
+    const div=document.createElement("div");
+    div.className="option";
+    div.innerText=d;
+    div.onclick=()=>selectDept(div,d);
+    options.appendChild(div);
+  });
+}
+
+function closeSheet(){
+  overlay.style.display="none";
+  sheet.classList.remove("open");
+}
+
+function selectDept(el,dept){
+  if(selectedEl) selectedEl.classList.remove("selected");
+  el.classList.add("selected");
+  selectedEl=el;
+
+  localStorage.setItem("department",dept);
+
+  setTimeout(()=>{
+    window.location.href="home.html";
+  },450);
+}
+</script>
+
+</body>
+</html>

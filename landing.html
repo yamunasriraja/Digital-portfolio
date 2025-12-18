@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCWL | Study Material Platform</title>
+
+<style>
+:root {
+  --primary: #00aaff;
+  --dark: #0d1b2a;
+  --card: #1b263b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: var(--dark);
+  color: #fff;
+}
+
+/* ================= NAVBAR ================= */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 25px;
+  background: linear-gradient(90deg, #0d1b2a, #112f4a);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.login-text {
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.login-text:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ================= HERO ================= */
+.hero {
+  text-align: center;
+  padding: 60px 20px 35px;
+}
+
+.hero h1 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 15px;
+  opacity: 0.85;
+  max-width: 520px;
+  margin: auto;
+}
+
+/* ================= REGISTER CTA ================= */
+.register-center {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 40px;
+}
+
+.register-btn {
+  padding: 12px 30px;
+  background: var(--primary);
+  border: none;
+  border-radius: 28px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.register-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 20px rgba(0,170,255,0.35);
+}
+
+/* ================= FEATURES ================= */
+.features {
+  padding: 20px 20px 60px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.features h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.feature-card {
+  background: var(--card);
+  padding: 24px;
+  border-radius: 16px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+/* MILD EFFECT */
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 22px rgba(0,170,255,0.25);
+}
+
+.feature-icon {
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.feature-card h4 {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hero h1 {
+    font-size: 22px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+}.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  @media (max-width: 600px) {
+  .nav-left,
+  .nav-right {
+    position: static;
+    transform: none;
+  }
+
+  nav {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+}
+
+/* Force corners */
+nav {
+  position: relative;
+}
+
+.nav-left {
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav-right {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-left">
+    <div class="logo">🎓 GCWK</div>
+  </div>
+
+  <div class="nav-right">
+    <div class="login-text" onclick="goLogin()">
+      Already have an account? <b>Login</b>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Learn Today, Lead Tomorrow</h1>
+  <p>
+    A smart platform for students to access study materials, previous question papers,
+    events, and academic support — anytime, anywhere.
+  </p>
+</section>
+
+<!-- REGISTER CENTER BUTTON -->
+<div class="register-center">
+  <button class="register-btn" onclick="goRegister()">Register </button>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <h2>Platform Features</h2>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📘</div>
+      <h4>Study Materials</h4>
+      <p>Access notes, PDFs, and subject-wise learning resources.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">📝</div>
+      <h4>Previous Question Papers</h4>
+      <p>Prepare better using previous year exam papers.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">📢</div>
+      <h4>Events & Announcements</h4>
+      <p>Get updates on exams, events, and important notices.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h4>AI Learning Support</h4>
+      <p>Quick academic assistance through AI-powered tools.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 GCWL | Study Material Uploader
+</footer>
+
+<script>
+function goLogin() {
+  alert("Redirect to Login Page");
+  // window.location.href = "login.html";
+}
+
+function goRegister() {
+  alert("Redirect to Registration Page");
+  // window.location.href = "register.html";
+}
+</script>
+
+</body>
+</html>

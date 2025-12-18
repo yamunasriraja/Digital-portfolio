@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Question Paper Selection | GCWK</title>
+
+<style>
+  :root {
+    --primary: #2563eb;
+    --dark-bg: #0a1020;
+    --header-bg: rgba(15, 23, 42, 0.85);
+    --card-bg1: #1b263b;
+    --card-bg2: #223a5e;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top, #1b2a4e, var(--dark-bg));
+    color: #fff;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    background: var(--header-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 16px 26px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    z-index: 20;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .menu {
+    width: 28px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+  }
+  .menu div {
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+  }
+  .menu:hover div {
+    background: var(--primary);
+  }
+
+  main {
+    max-width: 500px;
+    margin: auto;
+    padding: 50px 20px;
+    flex-grow: 1;
+    z-index: 1;
+  }
+  h2 {
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  p {
+    opacity: 0.7;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+  form {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    padding: 32px 24px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  select, input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    background: #1e293b;
+    color: #fff;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-sizing: border-box;
+  }
+  select:hover,
+  select:focus,
+  input[type="text"]:hover,
+  input[type="text"]:focus {
+    background: #1a2233;
+    box-shadow: none;
+  }
+  button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 14px;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
+  }
+  .error {
+    color: #ff6b6b;
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+  footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
+
+  /* SIDE MENU */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    z-index: 19;
+  }
+
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: linear-gradient(180deg, #112240, #0b1a33);
+    transition: 0.3s;
+    z-index: 20;
+    box-shadow: 6px 0 20px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .side-menu.open {
+    left: 0;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+
+  .profile {
+    padding: 20px;
+    background: #0d1b2a;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .profile img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+  }
+  .profile h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .profile p {
+    font-size: 13px;
+    opacity: 0.8;
+  }
+
+  .menu-items {
+    padding: 10px 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .menu-items div {
+    padding: 14px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.3s;
+  }
+  .menu-items div:hover {
+    background: rgba(37, 99, 235, 0.18);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">📄 GCWK - Question Paper Selection</div>
+  <div class="menu" onclick="openMenu()" aria-label="Open menu" role="button" tabindex="0">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</header>
+
+<main>
+  <h2>Select Details</h2>
+  <p>Please select your Year, Semester, and enter Subject</p>
+
+  <form id="qpForm" novalidate>
+    <label for="year">Year <span style="color:#ff6b6b">*</span></label>
+    <select id="year" name="year" required>
+      <option value="" disabled selected>Select Year</option>
+      <option value="1st Year">1st Year</option>
+      <option value="2nd Year">2nd Year</option>
+      <option value="3rd Year">3rd Year</option>
+      <option value="4th Year">4th Year</option>
+    </select>
+
+    <label for="sem">Semester <span style="color:#ff6b6b">*</span></label>
+    <select id="sem" name="sem" required>
+      <option value="" disabled selected>Select Semester</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+
+    <label for="subject">Subject <span style="color:#ff6b6b">*</span></label>
+    <input
+      type="text"
+      id="subject"
+      name="subject"
+      placeholder="Type subject here"
+      autocomplete="off"
+      required
+    />
+
+    <div class="error" id="errorMsg"></div>
+
+    <button type="submit">Proceed</button>
+  </form>
+</main>
+
+<footer>© 2025 GCWK | Study Material Platform</footer>
+
+<!-- Side menu -->
+<div class="side-menu" id="sideMenu" role="navigation" aria-label="Side menu">
+  <div class="profile">
+    <img src="https://i.imgur.com/6VBx3io.png" alt="User Profile" />
+    <h3>Kavi Nilavu</h3>
+    <p>kavi@email.com</p>
+  </div>
+  <div class="menu-items">
+    <div tabindex="0" role="button" onclick="menuAction('history')">🕘 History</div>
+    <div tabindex="0" role="button" onclick="menuAction('download')">⬇️ Downloaded</div>
+    <div tabindex="0" role="button" onclick="menuAction('settings')">⚙️ Settings</div>
+    <div tabindex="0" role="button" onclick="menuAction('logout')">🚪 Logout</div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()" aria-hidden="true"></div>
+
+<script>
+  const form = document.getElementById('qpForm');
+  const errorMsg = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const year = form.year.value.trim();
+    const sem = form.sem.value.trim();
+    const subject = form.subject.value.trim();
+
+    if (!year || !sem || !subject) {
+      errorMsg.textContent = 'Please select Year, Semester, and enter Subject';
+      return;
+    }
+
+    errorMsg.textContent = '';
+
+    localStorage.setItem('qp_year', year);
+    localStorage.setItem('qp_sem', sem);
+    localStorage.setItem('qp_subject', subject);
+
+    const role = localStorage.getItem('role');
+    if (role === 'admin') {
+      window.location.href = 'admin-question.html';
+    } else {
+      window.location.href = 'student-question.html';
+    }
+  });
+
+  function openMenu() {
+    document.getElementById("sideMenu").classList.add("open");
+    document.getElementById("overlay").classList.add("show");
+  }
+
+  function closeMenu() {
+    document.getElementById("sideMenu").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+  }
+
+  function menuAction(action) {
+    closeMenu();
+    alert(action + " clicked");
+  }
+
+  document.querySelector('.menu').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openMenu();
+    }
+  });
+</script>
+
+</body>
+</html>
